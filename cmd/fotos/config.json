@@ -1,0 +1,9 @@
+{
+	"ui": "webview",
+	"cam": "webcam",
+	"device": "/dev/video3",
+	"savedir": "out/",
+	
+	"msg.error.takeimg": "Fehler beim Aufnehmen des Bildes!\n",
+	"msg.error.saveimg": "Fehler beim speichern des Bildes!\n"
+}

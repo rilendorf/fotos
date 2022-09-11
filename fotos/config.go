@@ -1,0 +1,78 @@
+package fotos
+
+import (
+	"encoding/json"
+	"log"
+	"os"
+	"path/filepath"
+	"sync"
+)
+
+type Config map[string]string
+
+var conf Config
+var confMu sync.RWMutex
+
+func readConfig() error {
+	confMu.Lock()
+	defer confMu.Unlock()
+
+	f, err := os.OpenFile(Path("config.json"), os.O_RDWR|os.O_CREATE, 0755)
+	if err != nil {
+		return err
+	}
+
+	defer f.Close()
+
+	s, err := f.Stat()
+	if err != nil {
+		return err
+	}
+
+	if s.Size() == 0 {
+		f.Write([]byte("{\n\t\n}\n"))
+		f.Seek(0, 0)
+	}
+
+	d := json.NewDecoder(f)
+	err = d.Decode(&conf)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func Conf() Config {
+	confMu.RLock()
+	defer confMu.RLock()
+
+	c := make(Config)
+	for k, v := range conf {
+		c[k] = v
+	}
+
+	return c
+}
+
+func Device() string {
+	d, ok := Conf()["device"]
+	if !ok || d == "" {
+		log.Fatal("No device configured")
+	}
+
+	return d
+}
+
+func SaveDir() string {
+	d, ok := Conf()["savedir"]
+	if !ok || d == "" {
+		log.Fatal("No directory for saving configured")
+	}
+
+	if !filepath.IsAbs(d) {
+		d = Path(d)
+	}
+
+	return d
+}

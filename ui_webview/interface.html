@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fotos</title>
+    <style>
+        body {
+            background-color: #0A0A0A;
+        }
+
+        .image {
+            top: 0;
+            left: 0;
+
+            height: 100%;
+            width: 100%;
+
+            position: absolute;
+
+            background-repeat: no-repeat;
+            background-position-x: center;
+            background-position-y: center;
+        }
+
+        .msg {
+            font-family: Helvetica, sans-serif;
+            color: darkgray;
+
+            position: absolute;
+
+            bottom: 0.5em;
+            left: 0.5em;
+        }
+
+        .popup {
+            font-family: Helvetica, sans-serif;
+            font-size: 10em;
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-style: italic;
+            -webkit-text-stroke: 2px black;
+
+        }
+
+        .text {
+            color: white;
+            font-family: monospace;
+            top: 0.5em;
+            left: 0.5em;
+
+            position: absolute;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="image" id="image" style="background-image: url({{ .ImageUrl }})">
+        <div class="msg">{{ .Status }}</div>
+        <div class="text">{{ .Msg }}</div>
+        <div class="popup">{{ .Popup }}</div>
+    </div>
+</body>
+
+</html>
