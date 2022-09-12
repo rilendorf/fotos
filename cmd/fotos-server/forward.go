@@ -19,9 +19,9 @@ var sshListener net.Listener
 var privateBytes []byte
 
 const (
-	//ip = "fotosgo.tk:22222"
+	ip = "fotosgo.tk:22222"
 	ip      = "localhost:22222"
-	forward = "https://direct.fotosalbum.tk"
+	forward = "http://direct.fotosalbum.tk"
 
 	minPort = 50000
 	maxPort = 50050
