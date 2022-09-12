@@ -1,9 +1,17 @@
 {
 	"ui": "webview",
 	"cam": "webcam",
-	"device": "/dev/video3",
+	"device": "/dev/video0",
 	"savedir": "out/",
-	
+
+	"http.album.addr": "[::]:8080",
 	"msg.error.takeimg": "Fehler beim Aufnehmen des Bildes!\n",
-	"msg.error.saveimg": "Fehler beim speichern des Bildes!\n"
+	"msg.error.saveimg": "Fehler beim speichern des Bildes!\n",
+	"msg.error.http.404": "Datei nicht gefunden!\n",
+	"msg.error.http.500": "Serverfehler!\n",
+
+	"cloud.pubcert": "id_rsa.pub",
+	"cloud.user": "0001-box",
+	"cloud.addr": "http://localhost:8081/",
+	"cloud.token": "aqzR47"
 }

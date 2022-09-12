@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"log"
 	"os"
-	"path/filepath"
 	"sync"
 )
 
@@ -59,19 +58,6 @@ func Device() string {
 	d, ok := Conf()["device"]
 	if !ok || d == "" {
 		log.Fatal("No device configured")
-	}
-
-	return d
-}
-
-func SaveDir() string {
-	d, ok := Conf()["savedir"]
-	if !ok || d == "" {
-		log.Fatal("No directory for saving configured")
-	}
-
-	if !filepath.IsAbs(d) {
-		d = Path(d)
 	}
 
 	return d
