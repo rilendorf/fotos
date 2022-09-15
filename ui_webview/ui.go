@@ -26,9 +26,12 @@ type Webview struct {
 	Status     string
 	Popup      string
 	Msg        string
+
+	clearTimeMu sync.RWMutex
+	clearTime   time.Time
 }
 
-func (w *Webview) ShowImage(img *fotos.Image) {
+func (w *Webview) showImage(img *fotos.Image, clear bool) {
 	if img == nil {
 		img = fotos.ImageFromBytes(testimg)
 	}
@@ -47,6 +50,18 @@ func (w *Webview) ShowImage(img *fotos.Image) {
 
 	w.rebuild()
 
+	if clear {
+		go w.clearImage(time.Second * 8)
+	}
+}
+func (w *Webview) ShowImage(img *fotos.Image) {
+	w.showImage(img, true)
+}
+
+func (w *Webview) clearImage(in time.Duration) {
+	time.Sleep(in)
+
+	w.showImage(fotos.ImageFromBytes(testimg), false)
 }
 
 func (w *Webview) Countdown(i int) {
@@ -134,7 +149,7 @@ func init() {
 	w.SetTitle("Fotos")
 	w.SetSize(480, 320, webview.HintMax)
 
-	w.ShowImage(fotos.ImageFromBytes(testimg))
+	w.showImage(fotos.ImageFromBytes(testimg), false)
 
 	fotos.RegisterUI("webview", w)
 }
