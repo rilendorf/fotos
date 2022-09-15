@@ -13,7 +13,8 @@ import (
 )
 
 func save(img *Image) error {
-	p := SaveDir() + time.Now().Format("2006-01-02.030405.jpg")
+	file := time.Now().Format("2006-01-02.030405.jpg")
+	p := SaveDir() + file
 
 	log.Println(fmt.Sprintf("[fotos.save] saving image to %s (%d bytes)", p, len(img.Bytes())))
 
@@ -21,6 +22,8 @@ func save(img *Image) error {
 	if err != nil {
 		return err
 	}
+
+	addImage(file, img)
 
 	return err
 }

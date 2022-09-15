@@ -12,6 +12,8 @@ github.com/go-errors/errors v1.4.2 h1:J6MZopCL4uSllY1OfXM374weqZFFItUbrImctkmUxI
 github.com/go-errors/errors v1.4.2/go.mod h1:sIVyrIiJhuEF+Pj9Ebtd6P/rEYROXFi3BopGUQ5a5Og=
 github.com/kr/pty v1.1.1 h1:VkoXIwSboBpnk99O/KFauAEILuNHv5DVFKZMBN/gUgw=
 github.com/kr/pty v1.1.1/go.mod h1:pFQYn66WHrOpPYNljwOMqo10TkYh1fy3cYio2l3bCsQ=
+github.com/mattn/go-sqlite3 v1.14.15 h1:vfoHhTN1af61xCRSWzFIWzx2YskyMTwHLrExkBOjvxI=
+github.com/mattn/go-sqlite3 v1.14.15/go.mod h1:2eHXhiwb8IkHr+BDWZGa96P6+rkvnG63S2DGjv9HUNg=
 github.com/maxhawkins/easyssh v0.0.0-20170204205938-a4ce364b6dd8 h1:ULHkTPFFos8hgmy0FBA/M3eTm2w3lN3fvmSVI0V+hg4=
 github.com/maxhawkins/easyssh v0.0.0-20170204205938-a4ce364b6dd8/go.mod h1:+u0DQw+9hzcidIKTwJ7/dDooIT5DNnVXZbQGP+TV/i4=
 github.com/webview/webview v0.0.0-20220816141928-2ee04ccd0530 h1:diPvLFzNaRG1c1Qh8s8jWQt/+l8HQs9iQgHvAV4N8q8=

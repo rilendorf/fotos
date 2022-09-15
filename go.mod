@@ -13,6 +13,7 @@ require (
 
 require (
 	github.com/kr/pty v1.1.1 // indirect
+	github.com/mattn/go-sqlite3 v1.14.15 // indirect
 	github.com/maxhawkins/easyssh v0.0.0-20170204205938-a4ce364b6dd8 // indirect
 	golang.org/x/sys v0.0.0-20220909162455-aba9fc2a8ff2 // indirect
 )

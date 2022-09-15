@@ -10,8 +10,6 @@
 	"msg.error.http.404": "Datei nicht gefunden!\n",
 	"msg.error.http.500": "Serverfehler!\n",
 
-	"cloud.pubcert": "id_rsa.pub",
-	"cloud.user": "0001-box",
-	"cloud.addr": "http://localhost:8081/",
-	"cloud.token": "aqzR47"
+	"cloud.addr": "http://localhost:5050/",
+	"cloud.token": "869MA1QBD2DNGO4RJOV3GMBXU"
 }
