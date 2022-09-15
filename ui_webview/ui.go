@@ -163,7 +163,7 @@ func init() {
 	w := NewWebview(false)
 
 	w.SetTitle("Fotos")
-	w.SetSize(480, 320, webview.HintMax)
+	w.SetSize(1920, 1080, webview.HintFixed)
 
 	w.showImage(fotos.ImageFromBytes(testimg), false)
 
