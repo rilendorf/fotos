@@ -16,6 +16,8 @@ github.com/mattn/go-sqlite3 v1.14.15 h1:vfoHhTN1af61xCRSWzFIWzx2YskyMTwHLrExkBOj
 github.com/mattn/go-sqlite3 v1.14.15/go.mod h1:2eHXhiwb8IkHr+BDWZGa96P6+rkvnG63S2DGjv9HUNg=
 github.com/maxhawkins/easyssh v0.0.0-20170204205938-a4ce364b6dd8 h1:ULHkTPFFos8hgmy0FBA/M3eTm2w3lN3fvmSVI0V+hg4=
 github.com/maxhawkins/easyssh v0.0.0-20170204205938-a4ce364b6dd8/go.mod h1:+u0DQw+9hzcidIKTwJ7/dDooIT5DNnVXZbQGP+TV/i4=
+github.com/stianeikeland/go-rpio/v4 v4.6.0 h1:eAJgtw3jTtvn/CqwbC82ntcS+dtzUTgo5qlZKe677EY=
+github.com/stianeikeland/go-rpio/v4 v4.6.0/go.mod h1:A3GvHxC1Om5zaId+HqB3HKqx4K/AqeckxB7qRjxMK7o=
 github.com/webview/webview v0.0.0-20220816141928-2ee04ccd0530 h1:diPvLFzNaRG1c1Qh8s8jWQt/+l8HQs9iQgHvAV4N8q8=
 github.com/webview/webview v0.0.0-20220816141928-2ee04ccd0530/go.mod h1:rpXAuuHgyEJb6kXcXldlkOjU6y4x+YcASKKXJNUhh0Y=
 golang.org/x/crypto v0.0.0-20220829220503-c86fa9a7ed90 h1:Y/gsMcFOcR+6S6f3YeMKl5g+dZMEWqcz5Czj/GWYbkM=
