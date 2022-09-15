@@ -31,6 +31,21 @@ type Webview struct {
 	clearTime   time.Time
 }
 
+func getImageTimeout() time.Duration {
+	ds, ok := fotos.Conf()["ui.resetimg"]
+	if !ok {
+		ds = "8s"
+	}
+
+	d, err := time.ParseDuration(ds)
+	if err != nil {
+		log.Printf("[ui.resetimg] Error parsing specified duration '%s': %s\n", ds, err)
+		d = time.Second * 8
+	}
+
+	return d
+}
+
 func (w *Webview) showImage(img *fotos.Image, clear bool) {
 	if img == nil {
 		img = fotos.ImageFromBytes(testimg)
@@ -51,15 +66,16 @@ func (w *Webview) showImage(img *fotos.Image, clear bool) {
 	w.rebuild()
 
 	if clear {
-		go w.clearImage(time.Second * 8)
+		go w.clearImage()
 	}
 }
+
 func (w *Webview) ShowImage(img *fotos.Image) {
 	w.showImage(img, true)
 }
 
-func (w *Webview) clearImage(in time.Duration) {
-	time.Sleep(in)
+func (w *Webview) clearImage() {
+	time.Sleep(getImageTimeout())
 
 	w.showImage(fotos.ImageFromBytes(testimg), false)
 }

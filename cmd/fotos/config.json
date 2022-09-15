@@ -4,6 +4,8 @@
 	"device": "/dev/video0",
 	"savedir": "out/",
 
+	"ui.resetimg": "8s",
+
 	"http.album.addr": "[::]:8080",
 	"msg.error.takeimg": "Fehler beim Aufnehmen des Bildes!\n",
 	"msg.error.saveimg": "Fehler beim speichern des Bildes!\n",
