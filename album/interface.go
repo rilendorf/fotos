@@ -6,6 +6,7 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"net/url"
 	"path"
 	"strings"
 	"text/template"
@@ -27,8 +28,32 @@ type handler struct {
 	template   *template.Template
 }
 
-func List(w io.Writer, paths []string) {
-	templateList.Execute(w, paths)
+type ImageString string
+
+func (s ImageString) Share() string {
+	return url.QueryEscape(string(s))
+}
+
+type ListParams struct {
+	Imgs     []ImageString
+	Download string
+}
+
+func ListParamsFromStrs(s []string, dl string) *ListParams {
+	p := &ListParams{
+		Imgs:     make([]ImageString, len(s)),
+		Download: dl,
+	}
+
+	for k, v := range s {
+		p.Imgs[k] = ImageString(v)
+	}
+
+	return p
+}
+
+func List(w io.Writer, params *ListParams) {
+	templateList.Execute(w, params)
 }
 
 func (h *handler) ServeList(w http.ResponseWriter, r *http.Request) {
@@ -50,7 +75,7 @@ func (h *handler) ServeList(w http.ResponseWriter, r *http.Request) {
 		paths[k] = "images/" + v
 	}
 
-	h.template.Execute(w, paths)
+	h.template.Execute(w, ListParamsFromStrs(paths, ""))
 }
 
 func (h *handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
@@ -118,7 +143,7 @@ func (h *handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			}
 
 			for _, file := range pics {
-				fmt.Fprintf(w, "<a style=\"padding-left: 3em;\" href=\"%s\">%s</a><br>\n", file)
+				fmt.Fprintf(w, "<a style=\"padding-left: 3em;\" href=\"%s\">%s</a><br>\n", file, file)
 			}
 
 			fmt.Fprintf(w, "</body>")

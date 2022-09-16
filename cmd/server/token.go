@@ -1,11 +1,7 @@
 package main
 
 import (
-	"bytes"
-	"io"
-	"log"
 	"math/rand"
-	"os"
 	"time"
 )
 
@@ -19,27 +15,4 @@ func genTkn() (s string) {
 	}
 
 	return
-}
-
-func readToken() {
-	f, err := os.OpenFile("token.txt", os.O_CREATE|os.O_RDWR, 0755)
-	if err != nil {
-		log.Fatal("Error Opening token file!")
-	}
-
-	info, err := f.Stat()
-	if err != nil {
-		log.Fatal("Error getting info for token.txt")
-	}
-	if info.Size() == 0 {
-		log.Println("Token size is 0, generating new one")
-
-		f.Write([]byte(genTkn()))
-		f.Seek(0, 0)
-	}
-
-	buf := &bytes.Buffer{}
-	io.Copy(buf, f)
-
-	token = buf.String()
 }

@@ -10,7 +10,23 @@ import (
 	"path/filepath"
 )
 
-func albumHandler(w http.ResponseWriter, r *http.Request) {
+func verifyViewTkn(w http.ResponseWriter, r *http.Request) (string, string, bool) {
+	params := r.URL.Query()
+
+	Qacc := params.Get("name")
+	Qvtkn := params.Get("view")
+	token, viewtoken := getTokenByName(Qacc)
+
+	if token == "" || Qvtkn != viewtoken {
+		w.WriteHeader(404)
+		fmt.Fprint(w, "Sorry, this location dosn't exist\n")
+		return "", "", false
+	}
+
+	return Qacc, viewtoken, true
+}
+
+func contentType(w http.ResponseWriter, r *http.Request) {
 	switch path.Ext(r.URL.Path) {
 	case ".css":
 		w.Header().Set("Content-Type", "text/css")
@@ -25,29 +41,30 @@ func albumHandler(w http.ResponseWriter, r *http.Request) {
 	default:
 		w.Header().Set("Content-Type", "text/html")
 	}
+}
+
+func albumHandler(w http.ResponseWriter, r *http.Request) {
+	contentType(w, r)
 
 	_, file := filepath.Split(r.URL.Path)
 	if file == "" {
-		params := r.URL.Query()
-
-		Qacc := params.Get("name")
-		Qvtkn := params.Get("view")
-		token, viewtoken := getTokenByName(Qacc)
-
-		if token == "" || Qvtkn != viewtoken {
-			w.WriteHeader(404)
-			fmt.Fprint(w, "Sorry, this location dosn't exist\n")
+		acc, viewTkn, ok := verifyViewTkn(w, r)
+		if !ok {
 			return
 		}
 
-		images := readImages(Qacc)
+		images := readImages(acc)
 		paths := make([]string, len(images))
+		l := len(paths)
 
 		for k, v := range images {
-			paths[k] = "/images/" + v + "?name=" + Qacc + "&view=" + viewtoken
+			paths[l-1-k] = pubAccess + "/images/" + v + "?name=" + acc + "&view=" + viewTkn
 		}
 
-		album.List(w, paths)
+		album.List(w, album.ListParamsFromStrs(paths, "/export?name="+acc+"&view="+viewTkn))
+	} else if file == "LICENSE.txt" {
+		w.WriteHeader(200)
+		w.Write(album.MIT)
 	} else {
 		f, err := album.DATA.Open("html/" + file)
 		if err != nil {
@@ -61,21 +78,14 @@ func albumHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func imageHandler(w http.ResponseWriter, r *http.Request) {
-	params := r.URL.Query()
-
-	Qacc := params.Get("name")
-	Qvtkn := params.Get("name")
-	token, viewtoken := getTokenByName(Qacc)
-
-	if token == "" && Qvtkn == viewtoken {
-		w.WriteHeader(404)
-		fmt.Fprint(w, "Sorry, this location dosn't exist\n")
+	acc, _, ok := verifyViewTkn(w, r)
+	if !ok {
 		return
 	}
 
 	_, file := filepath.Split(r.URL.Path)
 
-	f := readImage(Qacc, file)
+	f := readImage(acc, file)
 
 	if len(f) == 0 {
 		w.WriteHeader(404)
@@ -85,4 +95,18 @@ func imageHandler(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "image/jpeg")
 	w.Write(f)
+}
+
+func exportHander(w http.ResponseWriter, r *http.Request) {
+	acc, _, ok := verifyViewTkn(w, r)
+	if !ok {
+		return
+	}
+
+	h := w.Header()
+
+	h.Set("Content-Disposition", "attachment; filename=\""+acc+"-export.zip\"")
+	h.Set("Content-Type", "application/zip")
+
+	createZip(acc, w)
 }

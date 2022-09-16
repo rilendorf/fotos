@@ -23,6 +23,7 @@ footer {
 
 body {
     margin: 0;
+	background-color: #808080;
 }
 
 .content {
@@ -71,12 +72,16 @@ nav > .name {
 
 .card {
     display:inline-block;
-
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    transition: 0.3s;
+    
+    background-color: #31313188;
+    
     width: 20em;
 
     margin: 0.25em;
+    border: solid;
+    border-radius: 10px;
+    border-color: #404040;
+    border-width: 0px;
 }
 
 .card:hover {
@@ -90,6 +95,7 @@ nav > .name {
 .actionrow {
     width: 100%;
     height: 3em;
+    padding: 0.1em;
 }
 
 .action {
@@ -104,6 +110,23 @@ nav > .name {
     padding: 0.05em;
 }
 
-.card > img {
+.card > .image {
     width: 100%;
+    margin:0;
+    padding: 0;
+    bottom: 0;
+    position: relative;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    position: relative;
+}
+
+.card > .image > img {
+	height: 100%;
+
+    border-radius: 10px;
+}
+
+a {
+	color:black;
 }

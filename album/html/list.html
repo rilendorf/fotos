@@ -1,31 +1,58 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fotos - album</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="icons.css">
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Fotos - album</title>
+	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="icons.css">
+	<script>
+		document.onreadystatechange = state => {
+			if( document.readyState != "complete") return
+			document.onreadystatechange = null
+
+			let elems = document.getElementsByClassName("cardimg")
+			for(let i = 0; i < elems.length ; i++) {
+				elems[i].onclick = self => {
+					console.log(self)
+
+					if( self.target.fullscreen === true ) {
+						self.target.fullscreen = false
+
+						self.target.style = ""
+					} else {
+						self.target.fullscreen = true
+						
+						self.target.style="position:absolute; max-width: 90%; max-height: 90%; left: 5%; top: 5%;"
+					}
+				}
+			}
+		}
+
+	</script>
 </head>
 <body>
  
-    <div class="content">
-        {{range .}}
-        <span class="card">
-            <div class="actionrow">
-                <span class="action"><a href="{{.}}" download class="bi bi-download" title="Download"></a></span>
-                <span class="action"><a class="bi bi-share" title="Share"></a></span>
-                <span class="action"><a href="mailto:?subject=Guckamal was ein sch%C3%B6nes Bild!&body=Hi, %0A%0Ahab grad 'n bild gemocht!%0ASchas' dir' doche' ma' a.%0A{{.}}" class="bi bi-envelope" title="E-Mail"></a></span>
-            </div>
-            <img src="{{.}}" width="100%">
-        </span>
-        {{end}}
-    </div>
+	<div class="content">
+		{{range .Imgs}}
+		<div class="card">
+			<div class="image">
+				<img class="cardimg" src="{{.}}" width="100%">
+			</div>
+			<div class="actionrow">
+				<span class="action"><a href="{{.Share}}" download class="bi bi-download" title="Download"></a></span>
+				<span class="action"><a href="mailto:?subject=&body={{.Share}}" class="bi bi-envelope" title="E-Mail"></a></span>
+				<span class="action"><a href="https://api.whatsapp.com/send?phone=&text={{.Share}}" class="bi bi-whatsapp" title="WhatsApp"></a></span>
+				<span class="action"><a href="{{.}}" class="bi bi-arrow-up-right" title="Open"></a></span>
+			</div>
+		</div>
+		{{end}}
+	</div>
 
-    <nav>
-        <span><i class="bi bi-file-earmark-zip" title="Download All"></i></span> - <span class="name">Fotos/Album</span>
-    </nav>
-    <footer><span>Made with <i class="bi-heart-fill" style="color:red"></i> by © 2022 DerZombiiie &lt;riley@e926.de&gt; <a href="/LICENSE.txt">License</a></span></footer>
+	<nav>
+		<span><a href="{{.Download}}" download class="bi bi-file-earmark-zip" title="Download All"></a></span> - <span class="name">Fotos/Album</span>
+	</nav>
+	<footer><span>Made with <i class="bi-heart-fill" style="color:red"></i> by © 2022 DerZombiiie &lt;riley@e926.de&gt; <a href="/LICENSE.txt">License</a></span></footer>
 </body>
 </html>
