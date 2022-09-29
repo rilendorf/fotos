@@ -12,6 +12,8 @@ require (
 )
 
 require (
+	github.com/fsnotify/fsnotify v1.5.4 // indirect
+	github.com/go-fsnotify/fsnotify v0.0.0-20180321022601-755488143dae // indirect
 	github.com/kr/pty v1.1.1 // indirect
 	github.com/mattn/go-sqlite3 v1.14.15 // indirect
 	github.com/maxhawkins/easyssh v0.0.0-20170204205938-a4ce364b6dd8 // indirect
