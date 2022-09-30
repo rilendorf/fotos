@@ -39,7 +39,7 @@ func (w *Webcam) TakePicture() (*fotos.Image, error) {
 
 func init() {
 	fotos.Runner(func() {
-		cmd := exec.Command("libcamera-still", "-t0", "-s", "-o-", "-ejpg")
+		cmd := exec.Command("libcamera-still", "-t0", "-s", "-o-", "-ejpg", "--vflip", "-f")
 
 		ch := make(chan []byte)
 
