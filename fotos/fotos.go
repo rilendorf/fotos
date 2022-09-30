@@ -3,6 +3,7 @@ package fotos
 import (
 	"log"
 	"sync"
+	"time"
 )
 
 func TakePicture() {
@@ -13,7 +14,7 @@ func TakePicture() {
 
 	cam.Ready()
 
-	ui.Countdown(3)
+	ui.Countdown(CountdownTime())
 
 	img, err := cam.TakePicture()
 	if err != nil {
@@ -79,10 +80,10 @@ func anyCam() Camera {
 }
 
 type UserInterface interface {
-	Countdown(i int)  // should wait i seconds and display countdown
-	ShowImage(*Image) // should down a image as result
-	ShowMsg(string)   // should show a message string
-	SetStatus(string) // should set a (almost) always visible status string
+	Countdown(i time.Duration) // should wait i seconds and display countdown
+	ShowImage(*Image)          // should down a image as result
+	ShowMsg(string)            // should show a message string
+	SetStatus(string)          // should set a (almost) always visible status string
 
 	Run() // start ui
 }

@@ -13,13 +13,10 @@ type Console struct {
 	*os.File
 }
 
-func (c *Console) Countdown(i int) {
-	for i > 0 {
-		fmt.Fprintf(c, "Countdown: %d\n", i)
-		time.Sleep(time.Second)
-
-		i--
-	}
+func (c *Console) Countdown(i time.Duration) {
+	fmt.Fprintf(c, "Countdown: %s \n", i)
+	time.Sleep(i)
+	fmt.Fprintf(c, "Countdown: Done \n")
 }
 
 func (c *Console) ShowImage(img *fotos.Image) {

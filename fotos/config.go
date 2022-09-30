@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"sync"
+	"time"
 )
 
 type Config map[string]string
@@ -58,6 +59,21 @@ func Device() string {
 	d, ok := Conf()["device"]
 	if !ok || d == "" {
 		log.Fatal("No device configured")
+	}
+
+	return d
+}
+
+func CountdownTime() time.Duration {
+	raw, ok := Conf()["countdown"]
+	if !ok {
+		raw = "5s"
+	}
+
+	d, err := time.ParseDuration(raw)
+	if err != nil {
+		log.Printf("Error parsing duration '%s': %s\n", raw, err)
+		d = time.Second * 5
 	}
 
 	return d
