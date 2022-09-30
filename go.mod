@@ -17,6 +17,7 @@ require (
 )
 
 require (
+	github.com/DerZombiiie/go-libcamera-example v0.0.0-20220930200625-f5a5a422ed7b // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	golang.org/x/sys v0.0.0-20220909162455-aba9fc2a8ff2 // indirect
 )

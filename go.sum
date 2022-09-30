@@ -1,3 +1,5 @@
+github.com/DerZombiiie/go-libcamera-example v0.0.0-20220930200625-f5a5a422ed7b h1:Juar5fCZm/TScGrMpmXv7AQCMot5LJDk99Td2SDXhjA=
+github.com/DerZombiiie/go-libcamera-example v0.0.0-20220930200625-f5a5a422ed7b/go.mod h1:M+eCsCQJzhWGGRW3oChu50uPSPKxetUul2hSR9Lr1X0=
 github.com/blackjack/webcam v0.0.0-20220329180758-ba064708e165 h1:QsIbRyO2tn5eSJZ/skuDqSTo0GWI5H4G1AT7Mm2H0Nw=
 github.com/blackjack/webcam v0.0.0-20220329180758-ba064708e165/go.mod h1:G0X+rEqYPWSq0dG8OMf8M446MtKytzpPjgS3HbdOJZ4=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
@@ -5,7 +7,6 @@ github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/fsnotify/fsnotify v1.5.4 h1:jRbGcIw6P2Meqdwuo0H1p6JVLbL5DHKAKlYndzMwVZI=
 github.com/fsnotify/fsnotify v1.5.4/go.mod h1:OVB6XrOHzAwXMpEM7uPOzcehqUV2UqJxmVXmkdnm1bU=
-github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/go-errors/errors v1.4.2 h1:J6MZopCL4uSllY1OfXM374weqZFFItUbrImctkmUxIA=
 github.com/go-errors/errors v1.4.2/go.mod h1:sIVyrIiJhuEF+Pj9Ebtd6P/rEYROXFi3BopGUQ5a5Og=
 github.com/go-gl/gl v0.0.0-20211210172815-726fda9656d6 h1:zDw5v7qm4yH7N8C8uWd+8Ii9rROdgWxQuGoJ9WDXxfk=
