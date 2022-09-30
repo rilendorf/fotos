@@ -5,6 +5,7 @@ import (
 
 	"github.com/stianeikeland/go-rpio/v4"
 
+	"log"
 	"time"
 )
 
@@ -12,7 +13,8 @@ func init() {
 	fotos.Runner(func() {
 		err := rpio.Open()
 		if err != nil {
-			panic(err)
+			log.Printf("Error, cant open raspi/GPIO: %s \nmaybe you aren't on RASPI? \n", err)
+			return
 		}
 
 		pin := rpio.Pin(17)
