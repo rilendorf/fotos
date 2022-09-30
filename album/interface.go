@@ -1,8 +1,12 @@
 package album
 
 import (
+	"bytes"
 	"embed"
 	"fmt"
+	"github.com/disintegration/imaging"
+	"image"
+	"image/jpeg"
 	"io"
 	"log"
 	"net/http"
@@ -21,6 +25,8 @@ var MIT []byte
 //go:embed html/list.html
 var htmllist string
 
+const previewWidth = 512
+
 type handler struct {
 	getImage   func(string) []byte
 	listImages func() []string
@@ -32,6 +38,21 @@ type ImageString string
 
 func (s ImageString) Share() string {
 	return url.QueryEscape(string(s))
+}
+
+func (s ImageString) Preview() string {
+	p, err := url.Parse(string(s))
+	if err != nil {
+		log.Printf("Error creating preview URL of '%s': %s !", s, err)
+		return string(s)
+	}
+
+	v := p.Query()
+	v.Add("preview", "true")
+
+	p.RawQuery = v.Encode()
+
+	return p.String()
 }
 
 type ListParams struct {
@@ -148,7 +169,14 @@ func (h *handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 			fmt.Fprintf(w, "</body>")
 		} else {
-			d := h.getImage(p[1])
+			var d []byte
+
+			if r.URL.Query().Has("preview") {
+				d = PreviewImage(h, p[1])
+			} else {
+				d = h.getImage(p[1])
+			}
+
 			if d == nil || len(d) == 0 {
 				w.WriteHeader(404)
 				fmt.Fprintf(w, h.msgs("error.http.404"))
@@ -163,6 +191,44 @@ func (h *handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	w.WriteHeader(404)
 	fmt.Fprintf(w, h.msgs("error.http.404"))
+}
+
+var previewCache = make(map[string][]byte)
+
+func PreviewImage(h *handler, name string) []byte {
+	if d, k := previewCache[name]; k {
+		return d
+	} else {
+		log.Printf("[ALBUM] Image not in cache, generating '%s' \n", name)
+		img := h.getImage(name)
+		image, _, err := image.Decode(bytes.NewBuffer(img))
+		if err != nil {
+			return img
+		}
+
+		b := image.Bounds()
+		width, height := b.Max.X-b.Min.X, b.Max.Y-b.Min.Y
+		if width < previewWidth || height < previewWidth { // image is small enough already
+			buf := &bytes.Buffer{}
+			jpeg.Encode(buf, image, &jpeg.Options{Quality: 50})
+
+			previewCache[name] = buf.Bytes()
+			return buf.Bytes()
+
+		}
+
+		image = imaging.Resize(image,
+			previewWidth,
+			int(float32(height)/float32(width)*previewWidth),
+			imaging.Box,
+		)
+
+		buf := &bytes.Buffer{}
+		jpeg.Encode(buf, image, &jpeg.Options{Quality: 50})
+		previewCache[name] = buf.Bytes()
+
+		return buf.Bytes()
+	}
 }
 
 var templateList *template.Template
