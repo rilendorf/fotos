@@ -94,7 +94,12 @@ func imageHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "image/jpeg")
-	w.Write(f)
+
+	if r.URL.Query().Has("preview") {
+		w.Write(PreviewImage(f))
+	} else {
+		w.Write(f)
+	}
 }
 
 func exportHander(w http.ResponseWriter, r *http.Request) {

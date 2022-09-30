@@ -21,7 +21,7 @@ var GetToken = flag.String("get-token", "", "get a accounts token")
 var DatabaseFile = flag.String("db-file", "fotos.sqlite", "specify sqlite file used")
 
 var addr = ":5050"
-var pubAccess = "http://127.0.0.1:5050"
+var pubAccess = "http://192.168.1.89:5050"
 
 func main() {
 	openDB(*DatabaseFile)
