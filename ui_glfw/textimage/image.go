@@ -17,14 +17,12 @@ var fMu sync.RWMutex
 const fontPath = "/usr/share/fonts/liberation/LiberationSerif-Regular.ttf"
 
 // UpdateFont sets the font used
-func UpdateFont(path string) error {
+func UpdateFont(b []byte) error {
 	fMu.Lock()
 	defer fMu.Unlock()
 
-	b, err := ioutil.ReadFile(path)
-	if err != nil {
-		return err
-	}
+	var err error
+
 	f, err = truetype.Parse(b)
 	if err != nil {
 		return err
@@ -36,7 +34,12 @@ func UpdateFont(path string) error {
 // Generate Image creats an image thats centerd (no newline support)
 func GenerateImage(width, height int, text string) *image.RGBA {
 	if f == nil {
-		UpdateFont(fontPath)
+		b, err := ioutil.ReadFile(fontPath)
+		if err != nil {
+			return nil
+		}
+
+		UpdateFont(b)
 	}
 
 	fMu.RLock()

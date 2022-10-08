@@ -4,12 +4,16 @@ import (
 	"github.com/DerZombiiie/fotos/fotos"
 	"github.com/DerZombiiie/fotos/ui_glfw/textimage"
 
+	_ "embed"
 	"fmt"
 	"image"
 	"math"
 	"sync"
 	"time"
 )
+
+//go:embed font/Ubuntu-Italic.ttf
+var ubuntuTTF []byte
 
 const finalText = "cheese"
 
@@ -71,6 +75,8 @@ func (ui *ui_glfw) Countdown(d time.Duration) {
 }
 
 func init() {
+	textimage.UpdateFont(ubuntuTTF)
+
 	ui := &ui_glfw{
 		cache: make(map[string]*image.RGBA),
 

@@ -2,7 +2,7 @@ package ui
 
 import (
 	"fmt"
-	"github.com/go-gl/gl/v3.3-core/gl"
+	gl "github.com/go-gl/gl/v3.0/gles2"
 	"github.com/go-gl/glfw/v3.3/glfw"
 	"image"
 	"image/draw"
@@ -14,24 +14,27 @@ import (
 )
 
 var vertexShader = `
-#version 330 core
+#version 300 es
 
 layout(location = 0) in vec2 vertexPosition;
-layout(location = 1) in vec2 vertexTextureCoordinates;
+layout(location = 1) in vec2 t;
 out vec2 fragmentTextureCoordinates;
 
 void main()
 {
 	gl_Position = vec4(vertexPosition, 0.0, 1.0);
-	fragmentTextureCoordinates = vertexTextureCoordinates;
+	fragmentTextureCoordinates = vec2(t.x,t.y);
 }
 `
 
 var fragmentShader = `
-#version 330 core
+#version 300 es
+precision highp float;
+
+out vec4 outColor;
 
 in vec2 fragmentTextureCoordinates;
-out vec4 outColor;
+
 uniform sampler2D texture0;
 
 void main()
@@ -39,7 +42,9 @@ void main()
 	outColor = texture(texture0, fragmentTextureCoordinates);
 
 	if (outColor.a < 0.1)
-		discard;
+	{
+		discard;	
+	}
 }
 `
 
