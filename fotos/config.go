@@ -67,6 +67,7 @@ func Device() string {
 func CountdownTime() time.Duration {
 	raw, ok := Conf()["countdown"]
 	if !ok {
+		log.Println("Error, no countdown in config! using 5s")
 		raw = "5s"
 	}
 
