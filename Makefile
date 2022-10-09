@@ -18,7 +18,6 @@ run: build
 run-server:
 	docker run -it -p 50000-50050:50000-50050 fotos-server
 	
-
 server:
 	docker build . --tag fotos-server
 
