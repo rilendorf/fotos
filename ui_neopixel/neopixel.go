@@ -120,7 +120,7 @@ func (cw *Neopixel) countdown(duration time.Duration) error {
 func init() {
 	pix, err := NewPixel()
 	if err != nil {
-		log.Printf("Error creating Neopixel %s \n Maybe you're not on rpi? \n", err)
+		log.Printf("Error creating Neopixel %s \n Maybe you're not on rpi or you're not root? \n", err)
 	}
 
 	fotos.RegisterUI("neopixel", pix)
