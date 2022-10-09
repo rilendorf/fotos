@@ -1,11 +1,13 @@
 package textimage
 
 import (
+	"fmt"
 	"github.com/golang/freetype"
 	"github.com/golang/freetype/truetype"
 	"golang.org/x/image/font"
 	"golang.org/x/image/math/fixed"
 	"image"
+	"image/color"
 	"io/ioutil"
 	"sync"
 )
@@ -52,7 +54,7 @@ func GenerateImage(width, height int, text string) *image.RGBA {
 	c.SetFontSize(125)
 	c.SetClip(rgba.Bounds())
 	c.SetDst(rgba)
-	c.SetSrc(image.Black)
+	c.SetSrc(image.NewUniform(color.NRGBA{0, 255, 0, 128}))
 	c.SetHinting(font.HintingNone)
 
 	// Truetype stuff
@@ -64,7 +66,13 @@ func GenerateImage(width, height int, text string) *image.RGBA {
 	advance, _ := StrAdvance(face, text)
 
 	pt := freetype.Pt((width/2)-advance.Round()/2, height/2+int(125)/4)
-	c.DrawString(text, pt)
+	fmt.Printf("center: %d %d; w/h: %d/%d \n", pt.X.Round(), pt.Y.Round(), width, height)
+	rgba.Set(pt.X.Round()-10, pt.Y.Round(), color.NRGBA{0, 255, 0, 128})
+
+	_, err := c.DrawString(text, pt)
+	if err != nil {
+		fmt.Errorf("Error drawing string: %s \n", err)
+	}
 
 	return rgba
 }

@@ -43,6 +43,7 @@ void main()
 
 	if (outColor.a < 0.1)
 	{
+		outColor = vec4(0.5, outColor.g, outColor.b, 0.5);
 		discard;	
 	}
 }
