@@ -1,10 +1,10 @@
 {
-	"ui": "webview",
 	"cam": "webcam",
 	"device": "/dev/video0",
 	"savedir": "out/",
+	"countdown": "10s",
 
-	"ui.resetimg": "8s",
+	"ui.resetimg": "5s",
 
 	"http.album.addr": "[::]:8080",
 	"msg.error.takeimg": "Fehler beim Aufnehmen des Bildes!\n",
