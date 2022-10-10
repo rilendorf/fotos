@@ -1,7 +1,6 @@
 package webcam
 
 import (
-	"fmt"
 	"github.com/fsnotify/fsnotify"
 	"github.com/mitchellh/go-ps"
 	"path"
@@ -25,13 +24,13 @@ func (c *Camera) CameraThread() {
 
 	l, err := ps.Processes()
 	if err != nil {
-		fmt.Printf("Error: %s \n", err)
+		log.Printf("Error: %s \n", err)
 		return
 	}
 
 	watcher, err := fsnotify.NewWatcher()
 	if err != nil {
-		fmt.Printf("Error: %s \n", err)
+		log.Printf("Error: %s \n", err)
 		return
 	}
 
@@ -43,18 +42,18 @@ func (c *Camera) CameraThread() {
 		pid := p.Pid()
 
 		if f == "libcamera-still" {
-			fmt.Printf("Found libcamera-still process (PID: %d) \n", pid)
+			log.Printf("Found libcamera-still process (PID: %d) \n", pid)
 
 			if err != nil {
-				fmt.Printf("Error Finding Process (PID: %d): %s \n", pid, err)
+				log.Printf("Error Finding Process (PID: %d): %s \n", pid, err)
 				return
 			}
 
 			for {
-				fmt.Println("waiting for channel takeImage")
+				log.Println("waiting for channel takeImage")
 				<-c.takeImage
 
-				fmt.Printf("sending signal to PID %d \n", pid)
+				log.Printf("sending signal to PID %d \n", pid)
 
 				pr, err := os.FindProcess(pid)
 				if err != nil {
@@ -75,7 +74,7 @@ func (c *Camera) CameraThread() {
 
 					case e := <-watcher.Events:
 
-						fmt.Printf("Event: %s, op: %s \n", e, e.Op)
+						log.Printf("Event: %s, op: %s \n", e, e.Op)
 
 						switch e.Op {
 						case fsnotify.Remove:
@@ -107,7 +106,7 @@ func (c *Camera) CameraThread() {
 				b, err := os.ReadFile(file)
 				if err != nil {
 					c.recImage <- []byte{}
-					fmt.Printf("error reading file %s: %s \n", file, err)
+					log.Printf("error reading file %s: %s \n", file, err)
 				}
 
 				c.recImage <- b
@@ -118,6 +117,8 @@ func (c *Camera) CameraThread() {
 			}
 		}
 	}
+
+	log.Fatal("No 'libcamera-still' process found!")
 }
 
 func (c *Camera) Ready(time.Duration) {}
