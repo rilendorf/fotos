@@ -24,6 +24,10 @@ func ImageFromImage(i image.Image) *Image {
 
 func (i *Image) Bytes() []byte {
 	if len(i.bytes) == 0 {
+		if i.image == nil {
+			return []byte{}
+		}
+
 		buf := &bytes.Buffer{}
 
 		err := jpeg.Encode(buf, i.image, nil)
@@ -39,6 +43,10 @@ func (i *Image) Bytes() []byte {
 
 func (i *Image) Image() image.Image {
 	if i.image == nil {
+		if i.bytes == nil || len(i.bytes) == 0 {
+			return &image.RGBA{}
+		}
+
 		buf := bytes.NewBuffer(i.bytes)
 		img, err := jpeg.Decode(buf)
 		if err != nil {
