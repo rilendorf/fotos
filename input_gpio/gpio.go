@@ -13,7 +13,7 @@ func init() {
 	fotos.Runner(func() {
 		err := rpio.Open()
 		if err != nil {
-			log.Printf("Error, cant open raspi/GPIO: %s \nmaybe you aren't on RASPI? \n", err)
+			log.Printf("Error, cant open raspi/GPIO: %s \nmaybe you aren't on rpi? \n", err)
 			return
 		}
 
