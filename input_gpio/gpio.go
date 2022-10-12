@@ -17,7 +17,7 @@ func init() {
 			return
 		}
 
-		pin := rpio.Pin(17)
+		pin := rpio.Pin(26)
 
 		pin.PullUp()
 		pin.Input()
