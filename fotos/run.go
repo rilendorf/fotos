@@ -26,7 +26,7 @@ func run() {
 	runnersMu.RUnlock()
 
 	// start ui
-	GetUI().Run()
+	RunUI()
 
 	println("exit")
 }

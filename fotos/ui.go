@@ -118,3 +118,23 @@ func ShowImage(i *Image) {
 	wg.Wait()
 
 }
+
+func RunUI() {
+	userInterfacesMu.RLock()
+
+	var u = make(map[string]UserInterface)
+	for k, v := range userInterfaces {
+		u[k] = v
+	}
+
+	userInterfacesMu.RUnlock()
+
+	var wg sync.WaitGroup
+
+	for _, u := range u {
+		wg.Add(1)
+		go func(u UserInterface) { u.Run(); wg.Done() }(u)
+	}
+
+	wg.Wait()
+}
