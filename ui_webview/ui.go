@@ -80,20 +80,20 @@ func (w *Webview) clearImage() {
 	w.showImage(fotos.ImageFromBytes(testimg), false)
 }
 
-func (w *Webview) Countdown(i int) {
+func (w *Webview) Countdown(d time.Duration) {
 	w.templateMu.Lock()
 	defer w.templateMu.Unlock()
 
-	if i < 0 {
+	if d < 0 {
 		return
 	}
 
-	for i > 0 {
-		w.Popup = fmt.Sprintf("%d", i)
+	for d.Seconds() > 0 {
+		w.Popup = fmt.Sprintf("%d", int(d.Seconds()))
 		w.rebuild()
 		time.Sleep(time.Second)
 
-		i--
+		d -= time.Second
 	}
 
 	w.Popup = "cheese"
