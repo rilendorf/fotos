@@ -20,8 +20,8 @@ var GetToken = flag.String("get-token", "", "get a accounts token")
 
 var DatabaseFile = flag.String("db-file", "fotos.sqlite", "specify sqlite file used")
 
-var addr = ":5050"
-var pubAccess = "http://192.168.1.89:5050"
+var addr = flag.String("listen", ":5050", "specify listen addres")
+var pubAccess = flag.String("pub-access", "http://192.168.1.89:5050", "specify address that acceses this publicly")
 
 func main() {
 	openDB(*DatabaseFile)
@@ -95,6 +95,6 @@ func main() {
 	http.HandleFunc("/images/", imageHandler)
 	http.HandleFunc("/export/", exportHander)
 
-	log.Printf("listening on %s\n", addr)
-	http.ListenAndServe(addr, nil)
+	log.Printf("listening on %s\n", *addr)
+	http.ListenAndServe(*addr, nil)
 }
