@@ -1,20 +1,25 @@
 package album
 
 import (
-	"bytes"
-	"embed"
-	"fmt"
 	"github.com/disintegration/imaging"
 	"image"
 	"image/jpeg"
+
+	"bytes"
+	"embed"
+	"fmt"
 	"io"
 	"log"
+	"strings"
+
 	"net/http"
 	"net/url"
 	"path"
-	"strings"
 	"text/template"
 )
+
+// configuration
+const previewWidth = 512
 
 //go:embed html
 var DATA embed.FS
@@ -24,8 +29,6 @@ var MIT []byte
 
 //go:embed html/list.html
 var htmllist string
-
-const previewWidth = 512
 
 type handler struct {
 	getImage   func(string) []byte
@@ -102,20 +105,7 @@ func (h *handler) ServeList(w http.ResponseWriter, r *http.Request) {
 func (h *handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	log.Println("[HTTP] access url " + r.URL.Path)
 
-	switch path.Ext(r.URL.Path) {
-	case ".css":
-		w.Header().Set("Content-Type", "text/css")
-	case ".js":
-		w.Header().Set("Content-Type", "application/javascript")
-	case ".jpg":
-		w.Header().Set("Content-Type", "image/jpeg")
-	case ".woff":
-		w.Header().Set("Content-Type", "font/woff")
-	case ".txt":
-		w.Header().Set("Content-Type", "text/plain")
-	default:
-		w.Header().Set("Content-Type", "text/html")
-	}
+	contentType(w, r)
 
 	sendFile := func(path string) error {
 		f, err := DATA.Open(path)
@@ -253,4 +243,21 @@ func Listen(listImages func() []string,
 		getImage:   getImage,
 		msgs:       msgs,
 	})
+}
+
+func contentType(w http.ResponseWriter, r *http.Request) {
+	switch path.Ext(r.URL.Path) {
+	case ".css":
+		w.Header().Set("Content-Type", "text/css")
+	case ".js":
+		w.Header().Set("Content-Type", "application/javascript")
+	case ".jpg":
+		w.Header().Set("Content-Type", "image/jpeg")
+	case ".woff":
+		w.Header().Set("Content-Type", "font/woff")
+	case ".txt":
+		w.Header().Set("Content-Type", "text/plain")
+	default:
+		w.Header().Set("Content-Type", "text/html")
+	}
 }
