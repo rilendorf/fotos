@@ -4,7 +4,7 @@ fotos is a fotobox thing written in go
 
 requirements:
 
-- [golang][https://go.dev/]
+- [https://go.dev/
 
 - a raspberry pi
 
@@ -14,7 +14,7 @@ requirements:
 
   -  `rpi-ws28`
 
-    `1x` follow: [compiling directly on the Raspberry Pi][https://github.com/rpi-ws281x/rpi-ws281x-go#compiling-directly-on-the-raspberry-pi]
+    `1x` follow: https://github.com/rpi-ws281x/rpi-ws281x-go#compiling-directly-on-the-raspberry-pi
 
   - a internet connected server you can run the server on
 
