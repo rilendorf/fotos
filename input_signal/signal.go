@@ -11,8 +11,6 @@ import (
 
 func init() {
 	fotos.Runner(func() {
-		log.Printf("initializing input_signal")
-
 		sigChannel := make(chan os.Signal, 1)
 		signal.Notify(sigChannel, syscall.SIGUSR1, syscall.SIGUSR2)
 		select {
