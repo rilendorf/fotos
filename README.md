@@ -29,3 +29,15 @@ how 2 use:
    1. `fotos/cmd/preconfigured/main.go`
    2. go into that folder, compile, and run as **ROOT** (because of neopixel library)
 4. Open a Issue on github so I can help you :), no really feel free to message me riley@e926.de
+
+---
+
+# Some pictures:
+
+The Box:
+
+![the photobox](box.jpg)
+
+The (totally 100% clean inside)
+
+![the inside](inside.jpg)
