@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Fotos - album</title>
+	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="icons.css">
+	<script>
+		document.onreadystatechange = state => {
+			if( document.readyState != "complete") return
+			document.onreadystatechange = null
+
+			let elems = document.getElementsByClassName("cardimg")
+			for(let i = 0; i < elems.length ; i++) {
+				elems[i].onclick = self => {
+					console.log(self)
+
+					if( self.target.fullscreen === true ) {
+						self.target.fullscreen = false
+
+						self.target.style = ""
+					} else {
+						self.target.fullscreen = true
+						
+						self.target.style="position:absolute; max-width: 90%; max-height: 90%; left: 5%; top: 5%;"
+					}
+				}
+			}
+		}
+
+	</script>
+</head>
+<body>
+ 
+	<div class="content">
+		<div class="card">
+			No Images
+		</div>
+	</div>
+
+	<nav>
+		<span>
+			<a href="{{.Download}}" download class="bi bi-file-earmark-zip" title="Download All"></a>
+		</span>
+		-
+		<span class="name">Fotos/Album</span>
+	</nav>
+	<footer><span>Made with <i class="bi-heart-fill" style="color:red"></i> by © 2022 DerZombiiie &lt;riley@e926.de&gt; <a href="/LICENSE.txt">License</a></span></footer>
+</body>
+</html>
