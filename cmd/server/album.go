@@ -58,7 +58,7 @@ func albumHandler(w http.ResponseWriter, r *http.Request) {
 		l := len(paths)
 
 		for k, v := range images {
-			paths[l-1-k] = pubAccess + "/images/" + v + "?name=" + acc + "&view=" + viewTkn
+			paths[l-1-k] = conf.PublicAccess + "/images/" + v + "?name=" + acc + "&view=" + viewTkn
 		}
 
 		album.List(w, album.ListParamsFromStrs(paths, "/export?name="+acc+"&view="+viewTkn))

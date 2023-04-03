@@ -1,0 +1,12 @@
+[Unit]
+Description=Fotos go web server
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/opt/fotos/server
+Restart=always
+User=fotos
+
+[Install]
+WantedBy=multi-user.target

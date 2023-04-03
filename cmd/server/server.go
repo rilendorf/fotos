@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"os/user"
 
 	"flag"
 )
@@ -18,15 +19,26 @@ var AddAccount = flag.String("add-account", "", "add a new account")
 var RmAccount = flag.String("rm-account", "", "remove a account")
 var GetToken = flag.String("get-token", "", "get a accounts token")
 
-var DatabaseFile = flag.String("db-file", "fotos.sqlite", "specify sqlite file used")
+var ConfigPath = flag.String("config", "/opt/fotos/fotos.cfg", "set configuration path")
 
-var addr = flag.String("listen", ":5050", "specify listen addres")
-var pubAccess = flag.String("pub-access", "http://192.168.1.89:5050", "specify address that acceses this publicly")
+var conf Config
 
 func main() {
-	openDB(*DatabaseFile)
+	currentUser, err := user.Current()
+	if err != nil {
+		log.Printf("WARN: failed to determin user: %s\n", currentUser)
+	} else {
+		if currentUser.Username != "fotos" {
+			log.Printf("WARN: the server is best executed as 'fotos' user")
+		}
+	}
 
 	flag.Parse()
+
+	conf = ReadConfig()
+	log.Printf("Configuration: %#v", conf)
+
+	openDB(conf.DBPath)
 
 	if *GetToken != "" {
 		tkn, viewtkn := getTokenByName(*GetToken)
@@ -49,6 +61,8 @@ func main() {
 		tkn := genTkn()
 		viewtkn := genTkn()
 		fmt.Printf("Adding account '%s' with token %s and viewtoken %s\n", *AddAccount, tkn, viewtkn)
+		fmt.Printf("View: %s/?name=%s&view=%s\n", conf.PublicAccess, *AddAccount, viewtkn)
+
 		addAccount(*AddAccount, tkn, viewtkn)
 		return
 	}
@@ -95,6 +109,10 @@ func main() {
 	http.HandleFunc("/images/", imageHandler)
 	http.HandleFunc("/export/", exportHander)
 
-	log.Printf("listening on %s\n", *addr)
-	http.ListenAndServe(*addr, nil)
+	log.Printf("Listening on %s\n", conf.Listen)
+
+	err = http.ListenAndServe(conf.Listen, nil)
+	if err != nil {
+		log.Fatalf("ListenAndServe: %s", err)
+	}
 }
