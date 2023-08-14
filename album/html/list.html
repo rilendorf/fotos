@@ -8,12 +8,12 @@
 	<link rel="stylesheet" href="style.css">
 	<link rel="stylesheet" href="icons.css">
 	<script>
-		document.onreadystatechange = state => {
+/*		document.onreadystatechange = state => {
 			if( document.readyState != "complete") return
 			document.onreadystatechange = null
 
 			let elems = document.getElementsByClassName("cardimg")
-			for(let i = 0; i < elems.length ; i++) {
+			/*-- for(let i = 0; i < elems.length ; i++) { --> -->
 				elems[i].onclick = self => {
 					console.log(self)
 
@@ -29,7 +29,7 @@
 				}
 			}
 		}
-
+*/
 	</script>
 </head>
 <body>
@@ -38,7 +38,7 @@
 		{{range .Imgs}}
 		<div class="card">
 			<div class="image">
-				<img class="cardimg" src="{{.Preview}}" width="100%">
+				<a href="{{.}}" title="View"><img class="cardimg" src="{{.Preview}}" width="100%"></a>
 			</div>
 			<div class="actionrow">
 				<span class="action"><a href="{{.}}" class="bi bi-download" title="Download" download></a></span>
