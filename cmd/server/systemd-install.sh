@@ -8,7 +8,7 @@ fi
 
 if [ "$(id -u)" -ne 0 ]
 then
-	echo "To install please run this script as root.."
+	echo "To install please run this script as root."
 	exit 1
 fi
 
@@ -21,7 +21,12 @@ then
 fi
 
 #install into /opt
+echo "installing into /opt/fotos"
+echo "ensuring /opt/fotos"
 mkdir -p /opt/fotos
+
+echo "ensuring correct ownership on /opt/fotos"
+chown fotos -R /opt/fotos
 
 echo "install new executable"
 cp server /opt/fotos/server
@@ -32,12 +37,14 @@ if ! test -f /opt/fotos/fotos.cfg; then
 	cp ./default.cfg /opt/fotos/fotos.cfg
 fi
 
-echo "ensuring fotos.sqlite"
-chown fotos:fotos -R /opt/
-
-echo "adding user fotos"
-useradd -s /bin/nologin \
-	fotos
+USER="fotos"
+if id "$USER" >/dev/null 2>&1; then
+    echo "$USER user exists"
+else
+	echo "adding user $USER"
+	/sbin/useradd -s /bin/nologin \
+		"$USER"
+fi
 
 echo "install systemd service"
 cp ./fotos.service /etc/systemd/system/fotos.service
@@ -47,6 +54,6 @@ systemctl daemon-reload
 
 echo ""
 echo "+TLDR---"
-echo "| Installed fotos-go/server into /opt/fotos"
-echo "| The configuration can be found in /opt/fotos/config"
+echo "| Installed fotos/cmd/server into /opt/fotos/server"
+echo "| The configuration can be found in /opt/fotos/config.cfg"
 echo "| The systemd service is called 'fotos'"
