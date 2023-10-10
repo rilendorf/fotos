@@ -14,11 +14,13 @@ var (
 var dblog *log.Logger
 
 var (
-	addImg      *sql.Stmt
-	readImgs    *sql.Stmt
-	readImgPath *sql.Stmt
+	addImg          *sql.Stmt
+	readImgs        *sql.Stmt
+	readImgsDeleted *sql.Stmt
+	readImgPath     *sql.Stmt
 
-	delImg *sql.Stmt
+	delImg     *sql.Stmt
+	delImgHard *sql.Stmt
 
 	addAcc   *sql.Stmt
 	delAcc   *sql.Stmt
@@ -38,7 +40,7 @@ func openDB(path string) {
 
 	// create tables
 	// images: name, blob, account (shared secret)
-	_, err = db.Exec("CREATE TABLE IF NOT EXISTS `images` (`name` TEXT PRIMARY KEY, `blob` BLOB, `account` TEXT);")
+	_, err = db.Exec("CREATE TABLE IF NOT EXISTS `images` (`name` TEXT PRIMARY KEY, `blob` BLOB, `account` TEXT, `deleted` BOOLEAN);")
 	if err != nil {
 		dblog.Fatalf("Can't prepare statement %s", err)
 	}
@@ -48,7 +50,13 @@ func openDB(path string) {
 		dblog.Fatalf("Can't prepare statement %s", err)
 	}
 
-	delImg, err = db.Prepare("DELETE FROM images WHERE name = ? AND account = ?")
+	// marks image as deleted and sets blob to 0
+	delImg, err = db.Prepare("UPDATE images SET deleted = true, blob = 0 WHERE name = ? AND account = ?;")
+	if err != nil {
+		dblog.Fatalf("Can't prepare statement %s", err)
+	}
+
+	delImgHard, err = db.Prepare("DELETE FROM images WHERE name = ? AND account = ?;")
 	if err != nil {
 		dblog.Fatalf("Can't prepare statement %s", err)
 	}
@@ -58,12 +66,17 @@ func openDB(path string) {
 		dblog.Fatalf("Can't prepare statement %s", err)
 	}
 
-	addImg, err = db.Prepare("INSERT OR REPLACE INTO images (name, account, blob) VALUES (?, ?, ?)")
+	addImg, err = db.Prepare("INSERT OR REPLACE INTO images (name, account, blob, deleted) VALUES (?, ?, ?, false)")
 	if err != nil {
 		dblog.Fatalf("Can't prepare statement %s", err)
 	}
 
-	readImgs, err = db.Prepare("SELECT name FROM images WHERE account = ?")
+	readImgs, err = db.Prepare("SELECT name FROM images WHERE account = ? AND deleted != true")
+	if err != nil {
+		dblog.Fatalf("Can't prepare statement %s", err)
+	}
+
+	readImgsDeleted, err = db.Prepare("SELECT name FROM images WHERE account = ? AND deleted = true")
 	if err != nil {
 		dblog.Fatalf("Can't prepare statement %s", err)
 	}
@@ -152,11 +165,24 @@ func haveImage(name, account string) bool {
 	return len(readImage(name, account)) == 0
 }
 
-func removeImage(name, account string) {
+// sets blob to 0 and marks image as deleted
+func deleteImage(name, account string) error {
+	_, err := delImg.Exec(name, account)
+	if err != nil {
+		dblog.Printf("Error deleting image '%s'\n", name)
+	}
+
+	return err
+}
+
+// also deletes entry
+func removeImage(name, account string) error {
 	_, err := delImg.Exec(name, account)
 	if err != nil {
 		dblog.Printf("Error removing image '%s'\n", name)
 	}
+
+	return err
 }
 
 func addAccount(name, token, viewtoken string) error {
