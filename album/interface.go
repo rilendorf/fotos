@@ -47,7 +47,7 @@ func (s ImageString) Share() string {
 }
 
 func (s ImageString) Preview() string {
-	p, err := url.Parse(string(s))
+	p, err := url.Parse(string(s)) // TODO: figure out how to file problems when domain/ip contains :8080 err "invalid URI for request"
 	if err != nil {
 		log.Printf("Error creating preview URL of '%s': %s !", s, err)
 		return string(s)
