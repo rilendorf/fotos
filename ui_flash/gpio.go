@@ -23,6 +23,8 @@ func init() {
 			return
 		}
 
+		log.Printf("Opened GPIO for flash")
+
 		pin = Pin{rpio.Pin(16)}
 
 		pin.Output()

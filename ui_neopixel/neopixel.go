@@ -24,7 +24,7 @@ func NewPixel() (cw *Neopixel, err error) {
 
 	opt := ws2811.DefaultOptions
 	opt.Channels[0].Brightness = 90
-	opt.Channels[0].LedCount = 16
+	opt.Channels[0].LedCount = 32
 	opt.Channels[0].GpioPin = 18 // PWD1 / pin33
 
 	cw.WS2811, err = ws2811.MakeWS2811(&opt)
