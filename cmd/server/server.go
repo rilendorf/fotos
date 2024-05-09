@@ -147,6 +147,8 @@ func main() {
 	http.HandleFunc("/", albumHandler)
 	http.HandleFunc("/images/", imageHandler)
 	http.HandleFunc("/export/", exportHander)
+	http.HandleFunc("/printingrequests", handlePrintingRequests)
+	http.HandleFunc("/printed", handlePrinted)
 
 	log.Printf("Listening on %s\n", conf.Listen)
 

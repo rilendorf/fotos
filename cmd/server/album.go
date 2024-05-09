@@ -95,7 +95,19 @@ func imageHandler(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "image/jpeg")
 
-	if r.URL.Query().Has("preview") {
+	if r.URL.Query().Has("print") {
+		w.Header().Set("Refresh: 5", "url=/?name="+acc+"&view="+r.URL.Query().Get("view"))
+		fmt.Printf("printing image %s\n", file)
+		err := MarkImagePrint(file, acc)
+		if err != nil {
+			w.WriteHeader(500)
+			fmt.Fprint(w, "Failed to print image!")
+			fmt.Printf("Failed to mark image print: %s", err)
+			return
+		}
+
+		w.Write(PreviewImage(f))
+	} else if r.URL.Query().Has("preview") {
 		w.Write(PreviewImage(f))
 	} else {
 		w.Write(f)

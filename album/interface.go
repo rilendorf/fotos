@@ -42,9 +42,14 @@ type handler struct {
 
 type ImageString string
 
+func (s ImageString) Print() string {
+	return string(s) + "&print"
+}
+
 func (s ImageString) Share() string {
 	return url.QueryEscape(string(s))
 }
+
 
 func (s ImageString) Preview() string {
 	p, err := url.Parse(string(s)) // TODO: figure out how to file problems when domain/ip contains :8080 err "invalid URI for request"

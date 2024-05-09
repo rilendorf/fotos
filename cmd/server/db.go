@@ -27,6 +27,10 @@ var (
 	getTkn   *sql.Stmt
 	getAcc   *sql.Stmt
 	rmImgAcc *sql.Stmt
+
+	markImgPrint   *sql.Stmt
+	getImg2Print   *sql.Stmt
+	markImgPrinted *sql.Stmt
 )
 
 func openDB(path string) {
@@ -41,6 +45,11 @@ func openDB(path string) {
 	// create tables
 	// images: name, blob, account (shared secret)
 	_, err = db.Exec("CREATE TABLE IF NOT EXISTS `images` (`name` TEXT PRIMARY KEY, `blob` BLOB, `account` TEXT, `deleted` BOOLEAN);")
+	if err != nil {
+		dblog.Fatalf("Can't prepare statement %s", err)
+	}
+
+	_, err = db.Exec("CREATE TABLE IF NOT EXISTS `printimages` (`name` TEXT PRIMARY KEY, `account` TEXT, `printed` BOOLEAN);")
 	if err != nil {
 		dblog.Fatalf("Can't prepare statement %s", err)
 	}
@@ -106,7 +115,54 @@ func openDB(path string) {
 		dblog.Fatalf("Can't prepare statement %s", err)
 	}
 
+	// 	_, err = db.Exec("CREATE TABLE IF NOT EXISTS `printimages` (`name` TEXT PRIMARY KEY, `account` TEXT, printed` BOOLEAN);")
+	markImgPrint, err = db.Prepare("INSERT OR REPLACE INTO printimages (name, account, printed) VALUES (?, ?, false)")
+	if err != nil {
+		dblog.Fatalf("Can't prepare statement %s", err)
+	}
+
+	getImg2Print, err = db.Prepare("SELECT name FROM printimages WHERE account = ? AND printed = FALSE")
+	if err != nil {
+		dblog.Fatalf("Can't prepare statement %s", err)
+	}
+
+	markImgPrinted, err = db.Prepare("UPDATE printimages SET printed = true WHERE name = ? AND account = ?")
+	if err != nil {
+		dblog.Fatalf("Can't prepare statement %s", err)
+	}
+
 	return
+}
+
+func MarkImagePrinted(name, account string) error {
+	_, err := markImgPrinted.Exec(name, account)
+	return err
+}
+
+func MarkImagePrint(name, account string) error {
+	_, err := markImgPrint.Exec(name, account)
+	return err
+}
+
+func GetImages2Print(account string) ([]string, error) {
+	r, err := getImg2Print.Query(account)
+	if err != nil {
+		return nil, err
+	}
+
+	s := make([]string, 0)
+	var buf string
+
+	for r.Next() {
+		err = r.Scan(&buf)
+		if err != nil {
+			return nil, err
+		}
+
+		s = append(s, buf)
+	}
+
+	return s, nil
 }
 
 func addImage(name, account string, data []byte) error {
