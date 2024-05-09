@@ -30,6 +30,9 @@ var MIT []byte
 //go:embed html/list.html
 var htmllist string
 
+//go:embed html/404.html
+var html404 string
+
 type handler struct {
 	getImage   func(string) []byte
 	listImages func() []string
@@ -44,7 +47,7 @@ func (s ImageString) Share() string {
 }
 
 func (s ImageString) Preview() string {
-	p, err := url.Parse(string(s))
+	p, err := url.Parse(string(s)) // TODO: figure out how to file problems when domain/ip contains :8080 err "invalid URI for request"
 	if err != nil {
 		log.Printf("Error creating preview URL of '%s': %s !", s, err)
 		return string(s)
@@ -77,7 +80,11 @@ func ListParamsFromStrs(s []string, dl string) *ListParams {
 }
 
 func List(w io.Writer, params *ListParams) {
-	templateList.Execute(w, params)
+	if len(params.Imgs) == 0 {
+		template404.Execute(w, params)
+	} else {
+		templateList.Execute(w, params)
+	}
 }
 
 func (h *handler) ServeList(w http.ResponseWriter, r *http.Request) {
@@ -222,13 +229,19 @@ func PreviewImage(h *handler, name string) []byte {
 }
 
 var templateList *template.Template
+var template404 *template.Template
 
 func init() {
 	var err error
 
 	templateList, err = template.New("list").Parse(htmllist)
 	if err != nil {
-		log.Fatal("template creation failed: " + err.Error())
+		log.Fatal("template creation failed (list): " + err.Error())
+	}
+
+	template404, err = template.New("404").Parse(html404)
+	if err != nil {
+		log.Fatal("template creation failed (404): " + err.Error())
 	}
 }
 

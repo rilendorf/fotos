@@ -8,12 +8,12 @@
 	<link rel="stylesheet" href="style.css">
 	<link rel="stylesheet" href="icons.css">
 	<script>
-/*		document.onreadystatechange = state => {
+		document.onreadystatechange = state => {
 			if( document.readyState != "complete") return
 			document.onreadystatechange = null
 
 			let elems = document.getElementsByClassName("cardimg")
-			/*-- for(let i = 0; i < elems.length ; i++) { --> -->
+			for(let i = 0; i < elems.length ; i++) {
 				elems[i].onclick = self => {
 					console.log(self)
 
@@ -29,32 +29,21 @@
 				}
 			}
 		}
-*/
+
 	</script>
 </head>
 <body>
  
 	<div class="content">
-		{{range .Imgs}}
 		<div class="card">
-			<div class="image">
-				<a href="{{.}}" title="View"><img class="cardimg" src="{{.Preview}}" width="100%"></a>
-			</div>
-			<div class="actionrow">
-				<span class="action"><a href="{{.}}" class="bi bi-download" title="Download" download></a></span>
-				<span class="action"><a href="mailto:?subject=&body={{.Share}}" class="bi bi-envelope" title="E-Mail"></a></span>
-				<span class="action"><a href="https://api.whatsapp.com/send?phone=&text={{.Share}}" class="bi bi-whatsapp" title="WhatsApp"></a></span>
-				<span class="action"><a href="{{.}}" class="bi bi-arrow-up-right" title="Open"></a></span>
-			</div>
+			No Images
 		</div>
-		{{end}}
 	</div>
 
 	<nav>
 		<span>
-			<a href="{{.Download}}" download title="Download All">
+			<a href="{{.Download}}" download title="Download All" style="visibility: hidden">
 			 <i class="bi bi-file-earmark-zip"></i>
-			 &lt;- download all
 			 </a>
 		</span>
 		-
