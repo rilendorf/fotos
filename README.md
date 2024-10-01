@@ -38,6 +38,6 @@ The Box:
 
 ![the photobox](box.jpg)
 
-The (totally 100% clean inside)
+The (totally 100% clean) inside
 
 ![the inside](inside.jpg)
