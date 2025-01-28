@@ -1,7 +1,7 @@
 package neopixel
 
 import (
-	"github.com/DerZombiiie/fotos/fotos"
+	"github.com/rilendorf/fotos/fotos"
 	ws2811 "github.com/rpi-ws281x/rpi-ws281x-go"
 
 	"log"

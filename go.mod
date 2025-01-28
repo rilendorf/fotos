@@ -1,9 +1,9 @@
-module github.com/DerZombiiie/fotos
+module github.com/rilendorf/fotos
 
 go 1.19
 
 require (
-	github.com/DerZombiiie/go-libcamera-example v0.0.0-20220930200625-f5a5a422ed7b
+	github.com/rilendorf/go-libcamera-example v0.0.0-20220930200625-f5a5a422ed7b
 	github.com/blackjack/webcam v0.0.0-20220329180758-ba064708e165
 	github.com/disintegration/imaging v1.6.2
 	github.com/go-errors/errors v1.4.2

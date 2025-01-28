@@ -1,8 +1,8 @@
 package ui
 
 import (
-	"github.com/DerZombiiie/fotos/fotos"
-	"github.com/DerZombiiie/fotos/ui_glfw/textimage"
+	"github.com/rilendorf/fotos/fotos"
+	"github.com/rilendorf/fotos/ui_glfw/textimage"
 
 	_ "embed"
 	"fmt"

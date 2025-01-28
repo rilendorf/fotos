@@ -20,8 +20,8 @@ requirements:
 
 how 2 use:
 
-1. `git clone git@github.com:DerZombiiie/fotos.git `
-   or: `git clone https://github.com/DerZombiiie/fotos.git`
+1. `git clone git@github.com:rilendorf/fotos.git `
+   or: `git clone https://github.com/rilendorf/fotos.git`
 2. configure:
    1. edit the `fotos/cmd/fotos/main.go`
    2. try to make sense of file

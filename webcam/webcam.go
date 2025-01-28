@@ -3,7 +3,7 @@ package webcam
 import (
 	"github.com/blackjack/webcam"
 
-	"github.com/DerZombiiie/fotos/fotos"
+	"github.com/rilendorf/fotos/fotos"
 
 	"fmt"
 	"log"

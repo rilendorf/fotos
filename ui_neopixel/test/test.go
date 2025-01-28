@@ -2,7 +2,7 @@ package main
 
 import (
 	"flag"
-	"github.com/DerZombiiie/fotos/ui_neopixel"
+	"github.com/rilendorf/fotos/ui_neopixel"
 	"log"
 	"time"
 )

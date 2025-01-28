@@ -10,7 +10,7 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/DerZombiiie/fotos/fotos"
+	"github.com/rilendorf/fotos/fotos"
 )
 
 const file = "tmpimage.jpg"

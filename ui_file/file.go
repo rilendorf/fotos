@@ -1,7 +1,7 @@
 package neopixel
 
 import (
-	"github.com/DerZombiiie/fotos/fotos"
+	"github.com/rilendorf/fotos/fotos"
 
 	"fmt"
 	"log"

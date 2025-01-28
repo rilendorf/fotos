@@ -1,7 +1,7 @@
 package gpio
 
 import (
-	"github.com/DerZombiiie/fotos/fotos"
+	"github.com/rilendorf/fotos/fotos"
 
 	"github.com/stianeikeland/go-rpio/v4"
 

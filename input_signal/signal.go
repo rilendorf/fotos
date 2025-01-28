@@ -1,7 +1,7 @@
 package signal
 
 import (
-	"github.com/DerZombiiie/fotos/fotos"
+	"github.com/rilendorf/fotos/fotos"
 
 	"log"
 	"os"

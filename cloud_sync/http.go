@@ -1,7 +1,7 @@
 package cloud
 
 import (
-	"github.com/DerZombiiie/fotos/fotos"
+	"github.com/rilendorf/fotos/fotos"
 
 	"encoding/json"
 	"io"

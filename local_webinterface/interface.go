@@ -1,8 +1,8 @@
 package web
 
 import (
-	"github.com/DerZombiiie/fotos/album"
-	"github.com/DerZombiiie/fotos/fotos"
+	"github.com/rilendorf/fotos/album"
+	"github.com/rilendorf/fotos/fotos"
 
 	"log"
 	"os"

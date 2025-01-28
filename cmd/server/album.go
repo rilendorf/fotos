@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/DerZombiiie/fotos/album"
+	"github.com/rilendorf/fotos/album"
 
 	"fmt"
 	"io"

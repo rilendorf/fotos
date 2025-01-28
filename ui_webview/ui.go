@@ -1,7 +1,7 @@
 package ui_webview
 
 import (
-	"github.com/DerZombiiie/fotos/fotos"
+	"github.com/rilendorf/fotos/fotos"
 	"github.com/webview/webview"
 
 	"bytes"
